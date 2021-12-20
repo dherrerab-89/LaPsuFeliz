@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<bean:beans xmlns:bean="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security
+		http://www.springframework.org/schema/security/spring-security.xsd">
+	
+	<http auto-config="true">
+		<intercept-url pattern="/" access="permitAll"/>
+		<intercept-url pattern="/homeAdmin" access="hasAnyAuthority('ADMIN')"/>
+		
+		<form-login login-page="/login"
+			authentication-failure-url="/error"
+			username-parameter="username"
+			password-parameter="password"/>
+			<csrf disabled="true"/>
+		<logout logout-success-url="/"/>
+	</http>
+	
+	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="bcrypt" />
+			<user-service>
+				<user name="admin" authorities="ADMIN" password="$2a$10$LUbE2ln1C7Kb2rGGJLB3d.wue7QFuTxc48P7dnYbb.C0wvm1Kr51i"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+	
+	</bean:beans>
+	
+	
+	
